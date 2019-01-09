@@ -1,3 +1,12 @@
-<ion-app>
-  <ion-router-outlet></ion-router-outlet>
-</ion-app>
+<ion-card>
+  <ion-card-header>
+    Words to Learn
+  </ion-card-header>
+
+  <ion-list>
+    <button ion-item *ngFor="let entry of entries">
+      <ion-icon name="trash" item-start></ion-icon>
+      {{ entry.sourceWord.word }}
+    </button>
+  </ion-list>
+</ion-card>

@@ -15,9 +15,10 @@ import { IonicStorageModule } from '@ionic/storage';
 import { Network } from '@ionic-native/network/ngx';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { FlashcardComponent } from "../app/flashcard/flashcard.component";
 
 @NgModule({
-  declarations: [AppComponent, UserPreferencesComponent],
+  declarations: [AppComponent, UserPreferencesComponent, FlashcardComponent],
   entryComponents: [UserPreferencesComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
     HttpClientModule, FormsModule,
