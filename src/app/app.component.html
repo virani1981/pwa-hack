@@ -4,9 +4,9 @@
   </ion-card-header>
 
   <ion-list>
-    <button ion-item *ngFor="let entry of entries">
-      <ion-icon name="trash" item-start></ion-icon>
-      {{ entry.sourceWord.word }}
-    </button>
+    <button ion-item *ngFor="let entry of entries" (click)="playEntry(entry)">
+      <ion-icon name="trash" item-start (click)="removeEntry(entry)"></ion-icon>
+      {{ entry.wordModels[0].word }} <app-flashcard [entry]=entry></app-flashcard>
+    </button> 
   </ion-list>
 </ion-card>

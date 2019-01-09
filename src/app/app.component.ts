@@ -3,14 +3,15 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { Entry } from "./models/entry";
+import { EntryModel } from "../app/models/entrymodel";
+import { FlashcardService } from "../app/services/flashcards/flashcard.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
-  private entries: Array<Entry>;
+  private entries: Array<EntryModel>;
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -29,6 +30,12 @@ export class AppComponent {
         this.statusBar.backgroundColorByHexString('#074f8b');
       }
     });
-    this.entries = flashcardService.getCurrentCards();
+    this.entries = this.flashcardService.getCurrentCards();
+    console.log(this.entries);
   }
+
+  removeEntry(entry: EntryModel){
+    this.flashcardService.removeCard(/*entry*/);
+  }
+
 }
