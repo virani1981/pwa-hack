@@ -1,10 +1,13 @@
 <ion-card>
   <ion-card-header>
     Words to Learn
+    <button ion-button icon-only>
+      <ion-icon name="add"></ion-icon>
+    </button>
   </ion-card-header>
 
   <ion-list>
-    <button ion-item *ngFor="let entry of entries" (click)="playEntry(entry)">
+    <button ion-button ion-item *ngFor="let entry of entries" (click)="playEntry(entry)">
       <ion-icon name="trash" item-start (click)="removeEntry(entry)"></ion-icon>
       {{ entry.wordModels[0].word }} <app-flashcard [entry]=entry></app-flashcard>
     </button> 
