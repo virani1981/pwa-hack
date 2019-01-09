@@ -26,7 +26,7 @@ export class FlashcardService {
 
   // sends all the enties
   getCurrentCards(): EntryModel [] {
-    return [];
+    return DICTIONARY;
   }
 
   getEntry(localeId: string, word: string): EntryModel {
