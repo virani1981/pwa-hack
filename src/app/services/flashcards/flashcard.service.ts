@@ -16,7 +16,7 @@ export class FlashcardService {
 
   // constructor(private http: HttpClient){}
 
-  entries: EntryModel[] = [];
+  entries: EntryModel[];
   defaultEntries: EntryModel[];
   defaultNumberOfEntries = 5;
   defaultWaitForSpeech = 5; // seconds
