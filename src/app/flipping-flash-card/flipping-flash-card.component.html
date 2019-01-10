@@ -1,0 +1,8 @@
+<div class="wtf">    
+  <div id="player" class="player" [class.voted]="flipped">
+      <div class="front">
+        <app-flashcard [wordModel]="entry.wordModels[0]" (flipEvent)="flip()">
+                  </app-flashcard>    </div>
+      <div class="back"><app-flashcard [wordModel]="entry.wordModels[1]" (flipEvent)="flip()"></app-flashcard></div>
+  </div>
+</div>

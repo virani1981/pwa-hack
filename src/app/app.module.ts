@@ -16,6 +16,7 @@ import { Network } from '@ionic-native/network/ngx';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { FlashcardComponent } from "../app/flashcard/flashcard.component";
+import { FlippingFlashCardComponent } from './flipping-flash-card/flipping-flash-card.component';
 
 @NgModule({
   declarations: [AppComponent, FlashcardComponent],
