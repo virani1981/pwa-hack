@@ -145,7 +145,7 @@ export class FlashcardService {
     await this.platform.is('cordova') ?
     this.getTextFromSpeechNative()
     :
-    this.getTextFromSpeech();
+    this.getTextFromSpeech(localeId);
   }
 
   // sends all the enties
