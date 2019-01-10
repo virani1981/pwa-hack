@@ -13,7 +13,7 @@ export class FlashcardComponent implements OnInit {
     //this.entry = this.flashcardService.getEntry();
    }
 
-  private entry: EntryModel
+  private entry: EntryModel;
  
   ngOnInit(){
   }
