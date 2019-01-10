@@ -70,6 +70,22 @@ module.exports = [
     "clobbers": [
       "Connection"
     ]
+  },
+  {
+    "id": "cordova-plugin-tts.tts",
+    "file": "plugins/cordova-plugin-tts/www/tts.js",
+    "pluginId": "cordova-plugin-tts",
+    "clobbers": [
+      "TTS"
+    ]
+  },
+  {
+    "id": "cordova-plugin-speechrecognition.SpeechRecognition",
+    "file": "plugins/cordova-plugin-speechrecognition/www/speechRecognition.js",
+    "pluginId": "cordova-plugin-speechrecognition",
+    "merges": [
+      "window.plugins.speechRecognition"
+    ]
   }
 ];
 module.exports.metadata = 
@@ -82,7 +98,9 @@ module.exports.metadata =
   "cordova-plugin-ionic-webview": "2.3.1",
   "cordova-plugin-ionic-keyboard": "2.1.3",
   "cordova-plugin-geolocation": "4.0.1",
-  "cordova-plugin-network-information": "2.0.1"
+  "cordova-plugin-network-information": "2.0.1",
+  "cordova-plugin-tts": "0.2.3",
+  "cordova-plugin-speechrecognition": "1.1.2"
 };
 // BOTTOM OF METADATA
 });

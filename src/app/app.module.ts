@@ -16,6 +16,9 @@ import { Network } from '@ionic-native/network/ngx';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { FlashcardComponent } from "../app/flashcard/flashcard.component";
+import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
+import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
+
 
 @NgModule({
   declarations: [AppComponent, FlashcardComponent],
@@ -27,6 +30,8 @@ import { FlashcardComponent } from "../app/flashcard/flashcard.component";
   providers: [
     StatusBar,
     SplashScreen,
+    TextToSpeech,
+    SpeechRecognition,
     Geolocation,
     Network,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
