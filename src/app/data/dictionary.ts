@@ -1,4 +1,4 @@
-const DICTIONARY = [
+export let DICTIONARY = [
     {
         entryId: 1,
         wordModels: [{

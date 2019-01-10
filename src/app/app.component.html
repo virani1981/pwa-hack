@@ -1,23 +1,29 @@
-<ion-card>
-  <ion-card-header>
-    Words to Learn
-    <button ion-button icon-only>
-      <ion-icon name="add" (click)="addEntry()">
-        <ion-item>
-          <ion-label floating>Add Entry</ion-label>
-          <ion-input type="text" [value]="addedWord"></ion-input>
-          <div padding>
-            <button block (click)="addEntry($event.target.value)">Add Word</button>
-          </div>
-        </ion-item>
-      </ion-icon>
-    </button>
-  </ion-card-header>
+<ion-header>
+    <ion-title>Language Cards</ion-title>
+</ion-header>
 
-  <ion-list>
-    <button ion-button ion-item *ngFor="let entry of entries" (click)="playEntry(entry)">
-      <ion-icon name="trash" item-start (click)="removeEntry(entry)"></ion-icon>
-      {{ entry.wordModels[0].word }} <app-flashcard [entry]=entry></app-flashcard>
-    </button> 
-  </ion-list>
-</ion-card>
+<ion-content class=" cards-bg">
+
+  <ion-card>
+    <ion-card-header>
+      Words to Learn
+      <button ion-button icon-only>
+        <ion-icon name="add" (click)="toggle()"></ion-icon>
+      </button>
+    </ion-card-header>
+    <ion-item *ngIf="show">
+        <ion-label floating>Add Entry</ion-label>
+        <ion-input type="text" [(ngModel)]="addedWord"></ion-input>
+        <div padding>
+          <button block (click)="addEntry(addedWord)">Submit</button>
+        </div>
+      </ion-item>
+    <ion-list>
+      <button ion-button ion-item *ngFor="let entry of entries" (click)="playEntry(entry)">
+        <ion-icon name="trash" item-start (click)="removeEntry(entry)"></ion-icon>
+        {{ entry.wordModels[0].word }} <!--<app-flashcard [entry]=entry></app-flashcard>-->
+      </button> 
+    </ion-list>
+  </ion-card>
+
+</ion-content>

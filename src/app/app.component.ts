@@ -11,8 +11,9 @@ import { FlashcardService } from "../app/services/flashcards/flashcard.service";
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
-  private entries: Array<EntryModel>;
-  private addedWord: String;
+  private localeId: string = "en-us";
+  private entries: EntryModel[];;
+  public show: boolean = false;
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -31,16 +32,27 @@ export class AppComponent {
         this.statusBar.backgroundColorByHexString('#074f8b');
       }
     });
-    this.entries = this.flashcardService.getCurrentCards();
-    console.log(this.entries);
+    this.flashcardService.getCurrentCards().then((entries) => { this.entries = entries});
+      
   }
 
   removeEntry(entry: EntryModel){
-    this.flashcardService.removeCard(/*entry*/);
+    this.flashcardService.removeCard(entry);
   }
 
-  addEntry(word: String){
-    this.flashcardService.addCard(/*word*/);
+  addEntry(word: string){
+    console.log(word);
+    this.flashcardService.addCard(this.localeId, word);
+    //this.flashcardService.addCard(this.localeId, word).then(() => { this.flashcardService.getCurrentCards().then((entries) => { this.entries = entries}) });
+    this.toggle();
+  }
+
+  setLocaleId(val: string){
+    this.localeId = val;
+  }
+
+  toggle() {
+    this.show = !this.show;
   }
 
 }

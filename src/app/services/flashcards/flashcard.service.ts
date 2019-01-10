@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, from, Subject } from 'rxjs';
+//import { HttpClient } from '@angular/common/http';
+import { Subject } from 'rxjs';
 import { EntryModel } from 'src/app/models/entrymodel';
 import { Storage} from '@ionic/storage';
-import { map } from 'rxjs/operators';
-import { saveConfig } from '@ionic/core';
-import { resolve } from 'dns';
-
+//import { map } from 'rxjs/operators';
+//import { saveConfig } from '@ionic/core';
+//import { resolve } from 'dns';
+import { DICTIONARY } from '../../data/dictionary';
+ 
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class FlashcardService {
   // constructor(private http: HttpClient){}
 
   entries: EntryModel[];
-  defaultEntries: EntryModel[];
+  defaultEntries: EntryModel[] = [];
   defaultNumberOfEntries = 5;
   private keys = {
     entries: 'entries'
@@ -115,7 +116,7 @@ export class FlashcardService {
       }
     }
     this.save();
-    this.isChanged.next();
+    //this.isChanged.next();
   }
 
 
@@ -123,6 +124,6 @@ export class FlashcardService {
   async save(): Promise<void> {
     await this.storage.ready();
     this.storage.set(this.keys.entries, this.entries);
-    this.isChanged.next();
+    //this.isChanged.next();
   }
 }
