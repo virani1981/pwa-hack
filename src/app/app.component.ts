@@ -33,7 +33,6 @@ export class AppComponent {
       }
     });
     this.flashcardService.getCurrentCards().then((entries) => { this.entries = entries});
-      
   }
 
   removeEntry(entry: EntryModel){
@@ -43,7 +42,6 @@ export class AppComponent {
   addEntry(word: string){
     console.log(word);
     this.flashcardService.addCard(this.localeId, word);
-    //this.flashcardService.addCard(this.localeId, word).then(() => { this.flashcardService.getCurrentCards().then((entries) => { this.entries = entries}) });
     this.toggle();
   }
 
