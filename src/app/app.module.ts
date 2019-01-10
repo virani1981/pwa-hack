@@ -14,13 +14,14 @@ import { Network } from '@ionic-native/network/ngx';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { FlashcardComponent } from "../app/flashcard/flashcard.component";
+import { FlippingFlashCardComponent } from './flipping-flash-card/flipping-flash-card.component';
 import { DeckComponent } from './deck/deck.component';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 
 
 @NgModule({
-  declarations: [AppComponent, FlashcardComponent, DeckComponent],
+  declarations: [AppComponent, FlashcardComponent, FlippingFlashCardComponent, DeckComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(),
     HttpClientModule, FormsModule,

@@ -22,7 +22,7 @@
   "_resolved": "https://registry.npmjs.org/cordova-plugin-speechrecognition/-/cordova-plugin-speechrecognition-1.2.0.tgz",
   "_shasum": "005f10c896fd9293d8587fe5522a2b642dea970a",
   "_spec": "cordova-plugin-speechrecognition",
-  "_where": "C:\\Users\\iqbal\\Desktop\\Projects\\pwa-hack",
+  "_where": "/home/calvin/projects/pwa-hack/node_modules",
   "author": {
     "name": "Peter Bakondy"
   },
