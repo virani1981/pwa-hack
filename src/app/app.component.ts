@@ -12,6 +12,7 @@ import { FlashcardService } from "../app/services/flashcards/flashcard.service";
 })
 export class AppComponent {
   private entries: Array<EntryModel>;
+  private addedWord: String;
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -36,6 +37,10 @@ export class AppComponent {
 
   removeEntry(entry: EntryModel){
     this.flashcardService.removeCard(/*entry*/);
+  }
+
+  addEntry(word: String){
+    this.flashcardService.addCard(/*word*/);
   }
 
 }
