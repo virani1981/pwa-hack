@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { EntryModel } from 'src/app/models/entrymodel';
 import { Storage} from '@ionic/storage';
-//import { TextToSpeech, TTSOptions } from '@ionic-native/text-to-speech';
+import { TextToSpeech, TTSOptions } from '@ionic-native/text-to-speech/ngx';
 import { Platform } from '@ionic/angular';
-//import { SpeechRecognition } from '@ionic-native/speech-recognition';
+import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { DICTIONARY } from '../../data/dictionary';
-import { timeout } from 'q';
 
 
 @Injectable({
@@ -20,6 +19,7 @@ export class FlashcardService {
   defaultEntries: EntryModel[] = [];
   defaultNumberOfEntries = 5;
   defaultWaitForSpeech = 5; // seconds
+
   private keys = {
     entries: 'entries'
   };
@@ -27,36 +27,35 @@ export class FlashcardService {
 
   constructor(private storage: Storage,
     private platform: Platform,
-    //private tts: TextToSpeech,
-    //private speechRecognition: SpeechRecognition
-    ) {
-
+    private tts: TextToSpeech,
+    private speechRecognition: SpeechRecognition) {
     for (let i = 0; i < this.defaultNumberOfEntries; i ++) {
       this.defaultEntries.push(DICTIONARY[i]);
     }
     this.isChanged = new Subject<void>();
   }
 
-  // private getSpeechFromTextNative(localeId: string, word: string) {
-  //   const textOrOptions: TTSOptions = {
-  //     text: word,
-  //     locale: localeId
-  //   };
-  //   this.tts.speak(textOrOptions)
-  //   .then(() => console.log('Success'))
-  //   .catch((reason: any) => console.log(reason));
-  // }
+  private getSpeechFromTextNative(localeId: string, word: string) {
+    const textOrOptions: TTSOptions = {
+      text: word,
+      locale: localeId
+    };
+    this.tts.speak(textOrOptions)
+    .then(() => console.log('Success'))
+    .catch((reason: any) => console.log(reason));
+  }
 
   private getSpeechFromText(localeId: string, word: string) {
+
     // :TODO
   }
 
-  // async say(localeId: string, word: string): Promise<void> {
-  //   this.platform.is('cordova') ?
-  //   await this.getSpeechFromTextNative(localeId, word)
-  //   :
-  //   await this.getSpeechFromText(localeId, word);
-  // }
+  async say(localeId: string, word: string): Promise<void> {
+    this.platform.is('cordova') ?
+    await this.getSpeechFromTextNative(localeId, word)
+    :
+    await this.getSpeechFromText(localeId, word);
+  }
 
   // Will listen to the speach and checks and gets the text
   private getTextFromSpeechNative(): string | Array<String> {
@@ -64,50 +63,50 @@ export class FlashcardService {
     let error: any;
     let words: Array<string> = [];
 
-    // this.speechRecognition.isRecognitionAvailable()
-    // .then((available: boolean) => {
-    //   console.log(available);
-    //   error = 'No Voice Recognition available';
-    // });
+    this.speechRecognition.isRecognitionAvailable()
+    .then((available: boolean) => {
+      console.log(available);
+      error = 'No Voice Recognition available';
+    });
 
     if (error) {
       return error;
     }
 
-    // this.speechRecognition.hasPermission()
-    // .then((hasPermission: boolean) => {
-    //   console.log(hasPermission);
-    //   if (!hasPermission) {
-    //     this.speechRecognition.requestPermission()
-    //     .then(
-    //       () => console.log('Granted'),
-    //       () => {
-    //         console.log('Denied');
-    //         error = 'Access Denied';
-    //       }
-    //     );
-    //   }
-    // });
+    this.speechRecognition.hasPermission()
+    .then((hasPermission: boolean) => {
+      console.log(hasPermission);
+      if (!hasPermission) {
+        this.speechRecognition.requestPermission()
+        .then(
+          () => console.log('Granted'),
+          () => {
+            console.log('Denied');
+            error = 'Access Denied';
+          }
+        );
+      }
+    });
 
     if (error) {
       return error;
     }
-    // this.speechRecognition.startListening()
-    // .subscribe(
-    //   (matches: Array<string>) => {
-    //     console.log(matches);
-    //     words = matches;
-    //   },
-    //   (onerror) => {
-    //     console.log('error:', onerror);
-    //     error = onerror;
-    //   }
-    // );
+    this.speechRecognition.startListening()
+    .subscribe(
+      (matches: Array<string>) => {
+        console.log(matches);
+        words = matches;
+      },
+      (onerror) => {
+        console.log('error:', onerror);
+        error = onerror;
+      }
+    );
 
-    // setTimeout(() => {
-    //   this.speechRecognition.stopListening();
-    // }, this.defaultWaitForSpeech);
-    
+    setTimeout(() => {
+      this.speechRecognition.stopListening();
+    }, this.defaultWaitForSpeech);
+
     if (error) {
       return error;
     } else {
@@ -193,13 +192,13 @@ export class FlashcardService {
       }
     }
     this.save();
-    //this.isChanged.next();
+    this.isChanged.next();
   }
 
   // saves the local data to a storage when an entry is added or removed
   async save(): Promise<void> {
     await this.storage.ready();
     this.storage.set(this.keys.entries, this.entries);
-    //this.isChanged.next();
+    this.isChanged.next();
   }
 }
