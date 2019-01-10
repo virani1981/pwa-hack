@@ -119,10 +119,25 @@ export class FlashcardService {
 
   }
 
-  private getTextFromSpeech(): string {
+  private getTextFromSpeech(localeId: string): string {
     // TODO
     const artyom = new Artyom();
-    artyom.say("You've said : ");
+    artyom.initialize({
+      lang: localeId, // GreatBritain english
+      continuous: true, // Listen forever
+      soundex: true,// Use the soundex algorithm to increase accuracy
+      debug: true, // Show messages in the console
+      executionKeyword: "and do it now",
+      listen: true, // Start to listen commands !
+
+      // If providen, you can only trigger a command if you say its name
+      // e.g to trigger Good Morning, you need to say "Jarvis Good Morning"
+      // name: "Jarvis"
+    }).then(() => {
+        console.log("Artyom has been succesfully initialized");
+    }).catch((err) => {
+        console.error("Artyom couldn't be initialized: ", err);
+    });
     return 'just text';
   }
 
@@ -182,10 +197,10 @@ export class FlashcardService {
           {localeId, word}
         ]
       };
-
-      this.entries.push(entry);
-      this.save();
     }
+
+    this.entries.push(entry);
+    this.save();
   }
 
   // removes a given entry/card from the array of data
