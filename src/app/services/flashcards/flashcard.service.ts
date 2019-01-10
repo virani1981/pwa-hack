@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { EntryModel } from 'src/app/models/entrymodel';
 import { Storage} from '@ionic/storage';
-import { TextToSpeech, TTSOptions } from '@ionic-native/text-to-speech';
+import { TextToSpeech, TTSOptions } from '@ionic-native/text-to-speech/ngx';
 import { Platform } from '@ionic/angular';
-import { SpeechRecognition } from '@ionic-native/speech-recognition';
+import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { DICTIONARY } from '../../data/dictionary';
-
 
 
 @Injectable({
@@ -20,6 +19,7 @@ export class FlashcardService {
   defaultEntries: EntryModel[];
   defaultNumberOfEntries = 5;
   defaultWaitForSpeech = 5; // seconds
+  artyom = new this.artyom();
 
   private keys = {
     entries: 'entries'
