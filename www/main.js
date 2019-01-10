@@ -1021,6 +1021,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_service_worker__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/service-worker */ "./node_modules/@angular/service-worker/fesm5/service-worker.js");
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../environments/environment */ "./src/environments/environment.ts");
 /* harmony import */ var _app_flashcard_flashcard_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../app/flashcard/flashcard.component */ "./src/app/flashcard/flashcard.component.ts");
+/* harmony import */ var _flipping_flash_card_flipping_flash_card_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./flipping-flash-card/flipping-flash-card.component */ "./src/app/flipping-flash-card/flipping-flash-card.component.ts");
+/* harmony import */ var _ionic_native_text_to_speech_ngx__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @ionic-native/text-to-speech/ngx */ "./node_modules/@ionic-native/text-to-speech/ngx/index.js");
+/* harmony import */ var _ionic_native_speech_recognition_ngx__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @ionic-native/speech-recognition/ngx */ "./node_modules/@ionic-native/speech-recognition/ngx/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1044,12 +1047,15 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
+
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
-            declarations: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"], _app_flashcard_flashcard_component__WEBPACK_IMPORTED_MODULE_14__["FlashcardComponent"]],
+            declarations: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"], _app_flashcard_flashcard_component__WEBPACK_IMPORTED_MODULE_14__["FlashcardComponent"], _flipping_flash_card_flipping_flash_card_component__WEBPACK_IMPORTED_MODULE_15__["FlippingFlashCardComponent"]],
             entryComponents: [],
             imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"], _ionic_angular__WEBPACK_IMPORTED_MODULE_3__["IonicModule"].forRoot(),
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_8__["HttpClientModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_9__["FormsModule"],
@@ -1058,6 +1064,8 @@ var AppModule = /** @class */ (function () {
             providers: [
                 _ionic_native_status_bar_ngx__WEBPACK_IMPORTED_MODULE_5__["StatusBar"],
                 _ionic_native_splash_screen_ngx__WEBPACK_IMPORTED_MODULE_4__["SplashScreen"],
+                _ionic_native_text_to_speech_ngx__WEBPACK_IMPORTED_MODULE_16__["TextToSpeech"],
+                _ionic_native_speech_recognition_ngx__WEBPACK_IMPORTED_MODULE_17__["SpeechRecognition"],
                 _ionic_native_geolocation_ngx__WEBPACK_IMPORTED_MODULE_6__["Geolocation"],
                 _ionic_native_network_ngx__WEBPACK_IMPORTED_MODULE_11__["Network"],
                 { provide: _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouteReuseStrategy"], useClass: _ionic_angular__WEBPACK_IMPORTED_MODULE_3__["IonicRouteStrategy"] }
@@ -1427,6 +1435,82 @@ var FlashcardComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [_services_flashcards_flashcard_service__WEBPACK_IMPORTED_MODULE_1__["FlashcardService"]])
     ], FlashcardComponent);
     return FlashcardComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/flipping-flash-card/flipping-flash-card.component.html":
+/*!************************************************************************!*\
+  !*** ./src/app/flipping-flash-card/flipping-flash-card.component.html ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"wtf\">    \n  <div id=\"player\" class=\"player\" [class.voted]=\"flipped\">\n      <div class=\"front\">\n        <app-flashcard [wordModel]=\"entry.wordModels[0]\" (flipEvent)=\"flip()\">\n                  </app-flashcard>    </div>\n      <div class=\"back\"><app-flashcard [wordModel]=\"entry.wordModels[1]\" (flipEvent)=\"flip()\"></app-flashcard></div>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/flipping-flash-card/flipping-flash-card.component.scss":
+/*!************************************************************************!*\
+  !*** ./src/app/flipping-flash-card/flipping-flash-card.component.scss ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "div.wtf {\n  -webkit-perspective: 1000px;\n  perspective: 1000px;\n  -webkit-transform-style: preserve-3d;\n  transform-style: preserve-3d;\n  display: block;\n  width: 320px;\n  height: 320px;\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  -webkit-transform: translate(-50%, -50%);\n  transform: translate(-50%, -50%);\n  cursor: pointer; }\n\n.player {\n  position: relative;\n  height: 100%;\n  width: 100%;\n  -webkit-transform-style: preserve-3d;\n  transform-style: preserve-3d;\n  transition: all 600ms;\n  z-index: 20; }\n\n.player div {\n  position: absolute;\n  height: 100%;\n  width: 100%;\n  background: #FFF;\n  text-align: center;\n  line-height: 200px;\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  border-radius: 50%; }\n\n.player .back {\n  background: #222;\n  color: #FFF;\n  -webkit-transform: rotateY(180deg);\n  transform: rotateY(180deg); }\n\n.player.voted {\n  transform: rotateY(180deg);\n  -webkit-transform: rotateY(180deg); }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL2NhbHZpbi9wcm9qZWN0cy9wd2EtaGFjay9zcmMvYXBwL2ZsaXBwaW5nLWZsYXNoLWNhcmQvZmxpcHBpbmctZmxhc2gtY2FyZC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFDQTtFQUNJLDRCQUEyQjtFQUMzQixvQkFBbUI7RUFDbkIscUNBQW9DO0VBQ3BDLDZCQUE0QjtFQUM1QixlQUFjO0VBQ2QsYUFBWTtFQUNaLGNBQWE7RUFDYixtQkFBa0I7RUFDbEIsVUFBUztFQUNULFNBQVE7RUFDUix5Q0FBd0M7RUFDeEMsaUNBQWdDO0VBQ2hDLGdCQUFlLEVBQ2xCOztBQUVEO0VBQ0ksbUJBQWtCO0VBQ2xCLGFBQVk7RUFDWixZQUFXO0VBQ1gscUNBQW9DO0VBQ3BDLDZCQUE0QjtFQUU1QixzQkFBcUI7RUFDckIsWUFBVyxFQUNkOztBQUVHO0VBQ0ksbUJBQWtCO0VBQ2xCLGFBQVk7RUFDWixZQUFXO0VBQ1gsaUJBQWdCO0VBQ2hCLG1CQUFrQjtFQUNsQixtQkFBa0I7RUFDbEIsb0NBQW1DO0VBRW5DLDRCQUEyQjtFQUMzQixtQkFBa0IsRUFDckI7O0FBS0Q7RUFDSSxpQkFBZ0I7RUFDaEIsWUFBVztFQUNYLG1DQUFrQztFQUNsQywyQkFBMEIsRUFDN0I7O0FBRUw7RUFDSSwyQkFBMEI7RUFDMUIsbUNBQWtDLEVBQ3JDIiwiZmlsZSI6InNyYy9hcHAvZmxpcHBpbmctZmxhc2gtY2FyZC9mbGlwcGluZy1mbGFzaC1jYXJkLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiXG5kaXYud3RmIHtcbiAgICAtd2Via2l0LXBlcnNwZWN0aXZlOiAxMDAwcHg7XG4gICAgcGVyc3BlY3RpdmU6IDEwMDBweDtcbiAgICAtd2Via2l0LXRyYW5zZm9ybS1zdHlsZTogcHJlc2VydmUtM2Q7XG4gICAgdHJhbnNmb3JtLXN0eWxlOiBwcmVzZXJ2ZS0zZDtcbiAgICBkaXNwbGF5OiBibG9jaztcbiAgICB3aWR0aDogMzIwcHg7XG4gICAgaGVpZ2h0OiAzMjBweDtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgbGVmdDogNTAlO1xuICAgIHRvcDogNTAlO1xuICAgIC13ZWJraXQtdHJhbnNmb3JtOiB0cmFuc2xhdGUoLTUwJSwgLTUwJSk7XG4gICAgdHJhbnNmb3JtOiB0cmFuc2xhdGUoLTUwJSwgLTUwJSk7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xufVxuXG4ucGxheWVyIHtcbiAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgaGVpZ2h0OiAxMDAlO1xuICAgIHdpZHRoOiAxMDAlO1xuICAgIC13ZWJraXQtdHJhbnNmb3JtLXN0eWxlOiBwcmVzZXJ2ZS0zZDtcbiAgICB0cmFuc2Zvcm0tc3R5bGU6IHByZXNlcnZlLTNkO1xuICAgIC13ZWJraXQtdHJhbnNpdGlvbjogYWxsIDYwMG1zO1xuICAgIHRyYW5zaXRpb246IGFsbCA2MDBtcztcbiAgICB6LWluZGV4OiAyMDtcbn1cblxuICAgIC5wbGF5ZXIgZGl2IHtcbiAgICAgICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgICAgICBoZWlnaHQ6IDEwMCU7XG4gICAgICAgIHdpZHRoOiAxMDAlO1xuICAgICAgICBiYWNrZ3JvdW5kOiAjRkZGO1xuICAgICAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gICAgICAgIGxpbmUtaGVpZ2h0OiAyMDBweDtcbiAgICAgICAgLXdlYmtpdC1iYWNrZmFjZS12aXNpYmlsaXR5OiBoaWRkZW47XG4gICAgICAgIC1tb3otYmFja2ZhY2UtdmlzaWJpbGl0eTogaGlkZGVuO1xuICAgICAgICBiYWNrZmFjZS12aXNpYmlsaXR5OiBoaWRkZW47XG4gICAgICAgIGJvcmRlci1yYWRpdXM6IDUwJTtcbiAgICB9XG4gICAgLy8gLnBsYXllciBpbWcge1xuICAgIC8vICAgYm9yZGVyLXJhZGl1czogNTAlO1xuICAgIC8vIH1cblxuICAgIC5wbGF5ZXIgLmJhY2sge1xuICAgICAgICBiYWNrZ3JvdW5kOiAjMjIyO1xuICAgICAgICBjb2xvcjogI0ZGRjtcbiAgICAgICAgLXdlYmtpdC10cmFuc2Zvcm06IHJvdGF0ZVkoMTgwZGVnKTtcbiAgICAgICAgdHJhbnNmb3JtOiByb3RhdGVZKDE4MGRlZyk7XG4gICAgfVxuXG4ucGxheWVyLnZvdGVkIHtcbiAgICB0cmFuc2Zvcm06IHJvdGF0ZVkoMTgwZGVnKTtcbiAgICAtd2Via2l0LXRyYW5zZm9ybTogcm90YXRlWSgxODBkZWcpO1xufSJdfQ== */"
+
+/***/ }),
+
+/***/ "./src/app/flipping-flash-card/flipping-flash-card.component.ts":
+/*!**********************************************************************!*\
+  !*** ./src/app/flipping-flash-card/flipping-flash-card.component.ts ***!
+  \**********************************************************************/
+/*! exports provided: FlippingFlashCardComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FlippingFlashCardComponent", function() { return FlippingFlashCardComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _data_dictionary__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../data/dictionary */ "./src/app/data/dictionary.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var FlippingFlashCardComponent = /** @class */ (function () {
+    function FlippingFlashCardComponent() {
+        this.flipped = false;
+    }
+    FlippingFlashCardComponent.prototype.flip = function () {
+        this.flipped = !this.flipped;
+    };
+    FlippingFlashCardComponent.prototype.ngOnInit = function () {
+        this.entry = _data_dictionary__WEBPACK_IMPORTED_MODULE_1__["DICTIONARY"][0];
+        this.firstWordModel = this.entry.wordModels[0];
+        this.secondWordModel = this.entry.wordModels[1];
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Object)
+    ], FlippingFlashCardComponent.prototype, "entry", void 0);
+    FlippingFlashCardComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-flipping-flash-card',
+            template: __webpack_require__(/*! ./flipping-flash-card.component.html */ "./src/app/flipping-flash-card/flipping-flash-card.component.html"),
+            styles: [__webpack_require__(/*! ./flipping-flash-card.component.scss */ "./src/app/flipping-flash-card/flipping-flash-card.component.scss")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], FlippingFlashCardComponent);
+    return FlippingFlashCardComponent;
 }());
 
 

@@ -17,9 +17,12 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { FlashcardComponent } from "../app/flashcard/flashcard.component";
 import { FlippingFlashCardComponent } from './flipping-flash-card/flipping-flash-card.component';
+import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
+import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
+
 
 @NgModule({
-  declarations: [AppComponent, FlashcardComponent],
+  declarations: [AppComponent, FlashcardComponent, FlippingFlashCardComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(),
     HttpClientModule, FormsModule,
@@ -28,6 +31,8 @@ import { FlippingFlashCardComponent } from './flipping-flash-card/flipping-flash
   providers: [
     StatusBar,
     SplashScreen,
+    TextToSpeech,
+    SpeechRecognition,
     Geolocation,
     Network,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
