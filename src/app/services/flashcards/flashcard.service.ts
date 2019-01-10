@@ -6,6 +6,7 @@ import { TextToSpeech, TTSOptions } from '@ionic-native/text-to-speech/ngx';
 import { Platform } from '@ionic/angular';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { DICTIONARY } from '../../data/dictionary';
+import Artyom from '../../../assets/js/artyom/artyom.js';
 
 
 @Injectable({
@@ -15,14 +16,15 @@ export class FlashcardService {
 
   // constructor(private http: HttpClient){}
 
+  private keys = {
+    entries: 'entries'
+  };
+
   entries: EntryModel[];
   defaultEntries: EntryModel[] = [];
   defaultNumberOfEntries = 5;
   defaultWaitForSpeech = 5; // seconds
 
-  private keys = {
-    entries: 'entries'
-  };
   isChanged: Subject<void>;
 
   constructor(private storage: Storage,
@@ -46,8 +48,10 @@ export class FlashcardService {
   }
 
   private getSpeechFromText(localeId: string, word: string) {
-
-    // :TODO
+    const artyom = new Artyom();
+    artyom.say(word, {
+      lang: localeId
+    });
   }
 
   async say(localeId: string, word: string): Promise<void> {
@@ -117,6 +121,8 @@ export class FlashcardService {
 
   private getTextFromSpeech(): string {
     // TODO
+    const artyom = new Artyom();
+    artyom.say("You've said : ");
     return 'just text';
   }
 
