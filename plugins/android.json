@@ -31,6 +31,12 @@
     },
     "cordova-plugin-network-information": {
       "PACKAGE_NAME": "com.ali.ionicweather"
+    },
+    "cordova-plugin-tts": {
+      "PACKAGE_NAME": "com.ali.ionicweather"
+    },
+    "cordova-plugin-speechrecognition": {
+      "PACKAGE_NAME": "com.ali.ionicweather"
     }
   },
   "dependent_plugins": {}

@@ -26,9 +26,9 @@ export class FlashcardService {
   isChanged: Subject<void>;
 
   constructor(private storage: Storage,
-    private platform: Platform,
-    private tts: TextToSpeech,
-    private speechRecognition: SpeechRecognition) {
+    public platform: Platform,
+    public tts: TextToSpeech,
+    public speechRecognition: SpeechRecognition) {
     for (let i = 0; i < this.defaultNumberOfEntries; i ++) {
       this.defaultEntries.push(DICTIONARY[i]);
     }
