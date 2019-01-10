@@ -6,6 +6,7 @@ import { TextToSpeech, TTSOptions } from '@ionic-native/text-to-speech';
 import { Platform } from '@ionic/angular';
 import { SpeechRecognition } from '@ionic-native/speech-recognition';
 import { DICTIONARY } from '../../data/dictionary';
+import { timeout } from 'q';
 
 
 @Injectable({
@@ -31,6 +32,7 @@ export class FlashcardService {
     for (let i = 0; i < this.defaultNumberOfEntries; i ++) {
       this.defaultEntries.push(DICTIONARY[i]);
     }
+    this.isChanged = new Subject<void>();
   }
 
   private getSpeechFromTextNative(localeId: string, word: string) {
@@ -100,6 +102,10 @@ export class FlashcardService {
       }
     );
 
+    setTimeout(() => {
+      this.speechRecognition.stopListening();
+    }, this.defaultWaitForSpeech);
+    
     if (error) {
       return error;
     } else {
@@ -140,7 +146,8 @@ export class FlashcardService {
   private findWord(localeId: string, word: string, entries: EntryModel[]): EntryModel {
     entries.forEach(e => {
       e.wordModels.forEach(w => {
-        if (w.localeId === localeId && w.word === word) {
+        if (w.localeId.toLocaleLowerCase() === localeId.toLocaleLowerCase()
+          && w.word.toLocaleLowerCase() === word.toLocaleLowerCase()) {
           return w;
         }
       });
@@ -149,7 +156,8 @@ export class FlashcardService {
     // If the local data does not have the value then lookup in dictionary
     DICTIONARY.forEach(e => {
       e.wordModels.forEach(w => {
-        if (w.localeId === localeId && w.word === word) {
+        if (w.localeId.toLocaleLowerCase() === localeId.toLocaleLowerCase()
+          && w.word.toLocaleLowerCase() === word.toLocaleLowerCase()) {
           return w;
         }
       });
