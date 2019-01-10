@@ -6,7 +6,7 @@ import { TextToSpeech, TTSOptions } from '@ionic-native/text-to-speech';
 import { Platform } from '@ionic/angular';
 import { SpeechRecognition } from '@ionic-native/speech-recognition';
 import { DICTIONARY } from '../../data/dictionary';
-import { timeout } from 'q';
+
 
 
 @Injectable({
@@ -20,6 +20,7 @@ export class FlashcardService {
   defaultEntries: EntryModel[];
   defaultNumberOfEntries = 5;
   defaultWaitForSpeech = 5; // seconds
+
   private keys = {
     entries: 'entries'
   };
@@ -46,6 +47,7 @@ export class FlashcardService {
   }
 
   private getSpeechFromText(localeId: string, word: string) {
+
     // :TODO
   }
 
@@ -105,7 +107,7 @@ export class FlashcardService {
     setTimeout(() => {
       this.speechRecognition.stopListening();
     }, this.defaultWaitForSpeech);
-    
+
     if (error) {
       return error;
     } else {
