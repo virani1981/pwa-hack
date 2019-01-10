@@ -16,10 +16,9 @@ export class FlashcardService {
   // constructor(private http: HttpClient){}
 
   entries: EntryModel[];
-  defaultEntries: EntryModel[];
+  defaultEntries: EntryModel[] = [];
   defaultNumberOfEntries = 5;
   defaultWaitForSpeech = 5; // seconds
-  artyom = new this.artyom();
 
   private keys = {
     entries: 'entries'
