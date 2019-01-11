@@ -35,11 +35,13 @@ export class FrenchFlashcardComponent implements AfterViewInit {
   verificationStatus: VerificationStatus = VerificationStatus.NONE;
 
 
-  // sayWord(word : string)
-  // {
-  //     this.flashcardService.say(this.wordModel.localeId, word);
-  // }  
-
+  closeIt()
+  {
+    debugger;
+    //this.closeEvent.emit('');
+    let event = new CustomEvent("flashcardClose", {bubbles: true, detail: {text: ""}});
+    window.dispatchEvent(event);
+  }
   sayFrenchWord()
   {
     this.flashcardService.say(this.entry.wordModels[1].localeId, this.entry.wordModels[1].word);

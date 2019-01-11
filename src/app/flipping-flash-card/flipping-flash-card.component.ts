@@ -24,6 +24,7 @@ export class FlippingFlashCardComponent implements OnInit {
   {
     let card = document.querySelector(".mcard");
     card.classList.toggle("is-flipped");
+    this.flipped = !this.flipped;
   }
 
   resetFlip()

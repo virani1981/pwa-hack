@@ -29,6 +29,13 @@ export class DeckComponent {
 
   currentEntry: EntryModel | null = null;
 
+ x : any =     
+ window.addEventListener('flashcardClose',  () => {
+   debugger;
+   this.closeIt();
+ });
+ 
+
   public show: boolean = false;
   public menuUp: boolean = true;
 
@@ -37,6 +44,7 @@ export class DeckComponent {
 
   constructor(private flashcardService: FlashcardService, private renderer: Renderer2, private modalController : ModalController) { 
     this.flashcardService.getCurrentCards().then((entries) => { this.entries = entries});
+ 
   }
 
   removeEntry(entry: EntryModel){
@@ -69,6 +77,11 @@ export class DeckComponent {
     
     // this.presentModal();
   }
+  closeIt() {
+    debugger;
+    this.menuUp = true;
+  }
+
 
 
   // async presentModal() {

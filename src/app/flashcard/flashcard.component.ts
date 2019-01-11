@@ -21,6 +21,9 @@ export class FlashcardComponent {
   @Output() 
   flipEvent = new EventEmitter<string>();
 
+// @Output()
+//   closeEvent  =new EventEmitter<string>();
+
   @ViewChild('micIcon') micIcon: IonIcon;
 
   wordModelIndex: number = 0;
@@ -29,6 +32,14 @@ export class FlashcardComponent {
 
   @Input()
   hideButtons: boolean = false;
+
+  closeIt()
+  {
+    debugger;
+    //this.closeEvent.emit('');
+    let event = new CustomEvent("flashcardClose", {bubbles: true, detail: {text: ""}});
+    window.dispatchEvent(event);
+  }
 
   sayWord()
   {
