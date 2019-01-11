@@ -1,18 +1,23 @@
 <ion-header>
-    <ion-toolbar color="primary"> <ion-title>Language Cards</ion-title></ion-toolbar>
+    <ion-toolbar color="primary"> <ion-title>Language Cards</ion-title> 
+      <ion-buttons slot="primary">
+        <ion-button >
+          <ion-icon slot="icon-only" name="globe"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 <ion-content padding>
   <ion-card>
     <ion-card-header class="primary-value">
       Words to Learn
-      <ion-button float-end color="primary" (click)="toggle()" class="fake">
+      <ion-button float-end color="primary" (click)="toggle()" >
         <ion-icon [name]="iconType"></ion-icon>
       </ion-button>
       <ion-item [hidden]=!show>
-          <ion-label floating>Add Entry</ion-label>
-          <ion-input #myInput type="text" [(ngModel)]="addedWord"></ion-input>
+          <ion-input #myInput type="text" placeholder="Add Word" [(ngModel)]="addedWord"></ion-input>
           <div>
-              <ion-button color="primary" round small (click)="addEntry(addedWord)">Submit</ion-button>
+              <ion-button color="primary" round small (click)="addEntry(addedWord)">Add</ion-button>
           </div>
       </ion-item>      
     </ion-card-header>

@@ -22,10 +22,10 @@ export class DeckComponent {
       this.flippingFlashCard = comps.first;
     });
   }
-  private localeId: string = "en-us";
-  private addedWord: string;
-  private entries: EntryModel[];
-  private iconType: string = "add";
+  localeId: string = "en-us";
+  addedWord: string;
+  entries: EntryModel[];
+  iconType: string = "add";
 
   currentEntry: EntryModel | null = null;
 
