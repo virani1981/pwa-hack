@@ -55,7 +55,7 @@ export let DICTIONARY = [
             sentence: 'Bill has six aunts.'
         }, {
             localeId: 'fr-FR',
-            word: 'six',
+            word: 'tante',
             sentence: 'Guy a six tantes.'
         }]
     },
