@@ -73,7 +73,7 @@ var Artyom = (function () {
             lang: 'en-GB',
             recognizing: false,
             continuous: false,
-            speed: 1,
+            speed: 0.5,
             volume: 1,
             listen: false,
             mode: "normal",

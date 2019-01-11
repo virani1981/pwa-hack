@@ -50,7 +50,8 @@ export class FlashcardService {
   private getSpeechFromText(localeId: string, word: string) {
     const artyom = new Artyom();
     artyom.say(word, {
-      lang: localeId
+      lang: localeId,
+      speed: 0.5
     });
   }
 
