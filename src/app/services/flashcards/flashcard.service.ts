@@ -7,6 +7,7 @@ import { Platform } from '@ionic/angular';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { DICTIONARY } from '../../data/dictionary';
 import Artyom from '../../../assets/js/artyom/artyom.js';
+import { delay } from 'q';
 
 
 @Injectable({
@@ -120,10 +121,11 @@ export class FlashcardService {
 
   }
 
-  private getTextFromSpeech(localeId: string): Array<string> {
+  private async getTextFromSpeech(localeId: string): Promise<Array<string>> {
     // TODO
     let words: Array<string> = new Array<string>();
     const artyom = new Artyom();
+    artyom.initialize({ lang: localeId });
     const settings = {
       continuous: true, // Don't stop never because i have https connection
       onResult: (text) => {
@@ -131,6 +133,7 @@ export class FlashcardService {
           console.log('Recognized text: ', text);
           String.prototype.trim();
           words = String(text).trim().split(' ');
+          console.log(words);
       },
       onStart: () => {
           console.log('Dictation started by the user');
@@ -145,15 +148,23 @@ export class FlashcardService {
     setTimeout(() => {
       UserDictation.stop();
     }, this.defaultWaitForSpeech);
+    
+    let startTime  = Date.now();
+    while (Date.now() - startTime < 3000) {}
+
+    console.log(words);
     return words;
   }
 
+  async delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}
   async verify(localeId: string, word: string): Promise<Array<string>> {
     let words: Array<string> ;
     await this.platform.is('cordova') ?
     words = this.getTextFromSpeechNative(localeId)
     :
-    words = this.getTextFromSpeech(localeId);
+    await this.getTextFromSpeech(localeId).then((w: string[]) => { words = w; });
 
     return words;
   }
