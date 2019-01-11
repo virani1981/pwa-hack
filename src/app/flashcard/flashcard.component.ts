@@ -35,8 +35,6 @@ export class FlashcardComponent {
 
   closeIt()
   {
-    debugger;
-    //this.closeEvent.emit('');
     let event = new CustomEvent("flashcardClose", {bubbles: true, detail: {text: ""}});
     window.dispatchEvent(event);
   }

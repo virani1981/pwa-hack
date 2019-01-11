@@ -16,7 +16,7 @@ export let DICTIONARY = [
         wordModels: [{
             localeId: 'en-US',
             word: 'two',
-            sentence: 'Jim has two apples'
+            sentence: 'Jim has two apples.'
         }, {
             localeId: 'fr-FR',
             word: 'deux',

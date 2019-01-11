@@ -31,7 +31,6 @@ export class DeckComponent {
 
  x : any =     
  window.addEventListener('flashcardClose',  () => {
-   debugger;
    this.closeIt();
  });
  
@@ -78,7 +77,6 @@ export class DeckComponent {
     // this.presentModal();
   }
   closeIt() {
-    debugger;
     this.menuUp = true;
   }
 

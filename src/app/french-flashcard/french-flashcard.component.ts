@@ -37,17 +37,15 @@ export class FrenchFlashcardComponent implements AfterViewInit {
 
   closeIt()
   {
-    debugger;
-    //this.closeEvent.emit('');
     let event = new CustomEvent("flashcardClose", {bubbles: true, detail: {text: ""}});
     window.dispatchEvent(event);
   }
-  sayFrenchWord()
+  sayWord()
   {
     this.flashcardService.say(this.entry.wordModels[1].localeId, this.entry.wordModels[1].word);
   }
 
-  sayFrenchSentence()
+  saySentence()
   { 
     this.flashcardService.say(this.entry.wordModels[1].localeId, this.entry.wordModels[1].sentence);
     
