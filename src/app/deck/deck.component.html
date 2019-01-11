@@ -17,6 +17,7 @@
       </ion-item>      
     </ion-card-header>
 
+
     <ion-card-content>
 
           <ion-item *ngFor="let entry of entries" >
@@ -29,5 +30,8 @@
           </ion-item>
 
     </ion-card-content>
+
   </ion-card>
+    <app-flipping-flash-card *ngIf="currentEntry" #flippingFlashCard [entry]="currentEntry"></app-flipping-flash-card>
+
 </ion-content>

@@ -15,22 +15,27 @@ export class FlippingFlashCardComponent implements OnInit {
   @Input()
   entry : EntryModel;
 
-  
-  firstWordModel : WordModel;
-  secondWordModel : WordModel;
-
   flip()
   {
-    this.flipped = !this.flipped;
+    let card = document.querySelector(".card");
+    card.classList.toggle("is-flipped");
+
   }
+
+  resetFlip()
+  {
+    let card = document.querySelector(".card");
+    if(card.classList.contains("is-flipped")) {
+      card.classList.remove("is-flipped");
+    }
+  
+  }
+
 
   constructor() { }
 
   ngOnInit() {
-    this.entry = DICTIONARY[0];
     
-    this.firstWordModel = this.entry.wordModels[0];
-    this.secondWordModel = this.entry.wordModels[1];
     
   }
 

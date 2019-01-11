@@ -13,6 +13,6 @@
       <button ion-button (click)="flip()"><ion-icon name="refresh"></ion-icon></button>
       <button ion-button (click)="verify()"><ion-icon #micIcon name="mic"></ion-icon></button>
       <ion-icon [hidden]="isCorrectHidden()" name="checkmark" color="green"></ion-icon>
-      <ion-icon [hidden]="isIncorrectHidden()" name="close" color="red"></ion-icon>
+      <ion-icon [hidden]="isIncorrectHidden" name="close" color="red"></ion-icon>
   </ion-card-content>
 </ion-card>
