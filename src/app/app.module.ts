@@ -18,10 +18,11 @@ import { FlippingFlashCardComponent } from './flipping-flash-card/flipping-flash
 import { DeckComponent } from './deck/deck.component';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
+import { FrenchFlashcardComponent } from './french-flashcard/french-flashcard.component';
 
 
 @NgModule({
-  declarations: [AppComponent, FlashcardComponent, FlippingFlashCardComponent, DeckComponent],
+  declarations: [AppComponent, FlashcardComponent, FlippingFlashCardComponent, DeckComponent, FrenchFlashcardComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(),
     HttpClientModule, FormsModule,

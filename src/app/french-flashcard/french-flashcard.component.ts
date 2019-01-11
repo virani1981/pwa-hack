@@ -7,38 +7,42 @@ import { IonIcon } from '@ionic/angular';
 export enum VerificationStatus { NONE, CORRECT, INCORRECT }
 
 @Component({
-  selector: 'app-flashcard',
-  templateUrl: 'flashcard.component.html',
-  styleUrls: ['flashcard.component.scss']
+  selector: 'app-french-flashcard',
+  templateUrl: 'french-flashcard.component.html',
+  styleUrls: ['french-flashcard.component.scss']
 })
-export class FlashcardComponent {
+export class FrenchFlashcardComponent {
   constructor(private flashcardService: FlashcardService) { }
 
   @Input()
   entry : EntryModel;
 
+  @Input()
+  hideButtons: boolean = true;
   @Output() 
   flipEvent = new EventEmitter<string>();
 
   @ViewChild('micIcon') micIcon: IonIcon;
 
-  wordModelIndex: number = 0;
+  
+  wordModelIndex: number = 1;
   
   verificationStatus: VerificationStatus = VerificationStatus.NONE;
 
-  @Input()
-  hideButtons: boolean = false;
 
-  sayWord()
+  // sayWord(word : string)
+  // {
+  //     this.flashcardService.say(this.wordModel.localeId, word);
+  // }  
+
+  sayFrenchWord()
   {
-    debugger;
-    this.flashcardService.say(this.entry.wordModels[0].localeId, this.entry.wordModels[0].word);
+    this.flashcardService.say(this.entry.wordModels[1].localeId, this.entry.wordModels[1].word);
   }
 
-  saySentence()
-  {
-    debugger; 
-    this.flashcardService.say(this.entry.wordModels[0].localeId, this.entry.wordModels[0].sentence);
+  sayFrenchSentence()
+  { 
+    this.flashcardService.say(this.entry.wordModels[1].localeId, this.entry.wordModels[1].sentence);
     
   }
 
@@ -47,7 +51,7 @@ export class FlashcardComponent {
     this.micIcon.color = "red";
     this.verificationStatus = VerificationStatus.NONE;
 
-    this.flashcardService.verify(this.entry.wordModels[0].localeId,  this.entry.wordModels[0].sentence).then(function(responses: Array<string>) {
+    this.flashcardService.verify(this.entry.wordModels[1].localeId,  this.entry.wordModels[1].sentence).then(function(responses: Array<string>) {
       let correct : boolean = false;
       for (let i = 0; i < responses.length; i++) {
         if (this.wordModel.word == responses[i]) {
@@ -65,7 +69,7 @@ export class FlashcardComponent {
 
   flip()
   {
-    this.flipEvent.next('');
+      this.flipEvent.next('');
   }
 
   isCorrectHidden() : boolean { return this.verificationStatus != VerificationStatus.CORRECT; }

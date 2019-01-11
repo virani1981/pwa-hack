@@ -5,13 +5,22 @@
       </ion-item>
   </ion-card-header> -->
   <ion-card-content>
-      {{ wordModel.word }}
-      <ion-item ion-button  (click)="sayWord(wordModel.word)"><ion-icon name="volume-high"></ion-icon></ion-item>
-      {{ wordModel.sentence }}
-      <ion-item ion-button (click)="sayWord(wordModel.sentence)"><ion-icon name="volume-high"></ion-icon></ion-item>
+      <!-- {{ wordModel.word }}-->
+      {{entry.wordModels[0].word}}
+
+      <!-- <ion-item ion-button  (click)="sayWord(wordModel.word)"><ion-icon name="volume-high"></ion-icon></ion-item> -->
+       
+       <ion-item [hidden]="hideButtons" ion-button  (click)="sayWord()"><ion-icon name="volume-high"></ion-icon></ion-item>
+      <!-- {{ wordModel.sentence }}
+       -->
+
+       {{entry.wordModels[0].sentence}}
+
+      <!-- <ion-item ion-button (click)="sayWord(wordModel.sentence)"><ion-icon name="volume-high"></ion-icon></ion-item> -->
+      <ion-item [hidden]="hideButtons" ion-button (click)="saySentence()"><ion-icon name="volume-high"></ion-icon></ion-item>
     
-      <ion-item ion-button (click)="flip()"><ion-icon name="refresh"></ion-icon></ion-item>
-      <ion-item ion-button (click)="verify()"><ion-icon #micIcon name="mic"></ion-icon></ion-item>
+      <ion-item [hidden]="hideButtons" ion-button (click)="flip()"><ion-icon name="refresh"></ion-icon></ion-item>
+      <ion-item [hidden]="hideButtons" ion-button (click)="verify()"><ion-icon #micIcon name="mic"></ion-icon></ion-item>
       <ion-icon [hidden]="isCorrectHidden()" name="checkmark" color="success"></ion-icon>
       <ion-icon [hidden]="isIncorrectHidden()" name="close" color="danger"></ion-icon>
   </ion-card-content>
