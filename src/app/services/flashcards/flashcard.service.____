@@ -36,7 +36,6 @@ export class FlashcardService {
       this.defaultEntries.push(DICTIONARY[i]);
     }
     this.isChanged = new Subject<void>();
-    this.wordsChange = new Subject<Array<string>>();
   }
 
   private getSpeechFromTextNative(localeId: string, word: string) {
@@ -120,59 +119,45 @@ export class FlashcardService {
     }
 
   }
-  UserDictation: any;
-  wordsChange: Subject<Array<string>>;
 
-  async getTextFromSpeech(localeId: string): Promise<Array<string>> {
+  private async getTextFromSpeech(localeId: string): Promise<Array<string>> {
+    // TODO
     let words: Array<string> = new Array<string>();
-
-    if (this.UserDictation)
-      this.UserDictation.stop();
-      
     const artyom = new Artyom();
-    artyom.initialize({
-      lang:"fr-FR",
-      debug:true, //Show what recognizes in the Console
-      listen:true, //Start listening after this
-      speed:0.8, // Talk a little bit slow
-  });
-  
-    let d = new Date();
-
+    artyom.initialize({ lang: localeId });
     const settings = {
-      continuous: false, // Don't stop never because i have https connection
+      continuous: true, // Don't stop never because i have https connection
       onResult: (text) => {
           // Show the Recognized text in the console
           console.log('Recognized text: ', text);
           String.prototype.trim();
-          words = words.concat(String(text).trim().split(' '));
-          this.checkStop(d);
+          words = String(text).trim().split(' ');
+          console.log(words);
       },
       onStart: () => {
           console.log('Dictation started by the user');
       },
       onEnd: () => {
-        this.wordsChange.next(words);
+          alert('Dictation stopped by the user');
       }
     };
 
-    this.UserDictation = artyom.newDictation(settings);
-    this.UserDictation.start();
-
+    const UserDictation = artyom.newDictation(settings);
+    UserDictation.start();
+    setTimeout(() => {
+      UserDictation.stop();
+    }, this.defaultWaitForSpeech);
     
-    // setTimeout(() => {
-    //   UserDictation.stop();
-    // }, this.defaultWaitForSpeech);
-    return Promise.resolve(words);
+    let startTime  = Date.now();
+    while (Date.now() - startTime < 3000) {}
+
+    console.log(words);
+    return words;
   }
 
-  checkStop(d: Date) {
-    if(new Date().getTime() - d.getTime() > this.defaultWaitForSpeech && this.UserDictation){
-      this.UserDictation.stop();
-      this.UserDictation = undefined;
-    }
-  }
-  
+  async delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}
   async verify(localeId: string, word: string): Promise<Array<string>> {
     let words: Array<string> ;
     await this.platform.is('cordova') ?

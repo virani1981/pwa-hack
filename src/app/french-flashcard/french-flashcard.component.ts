@@ -12,12 +12,29 @@ export enum VerificationStatus { NONE, CORRECT, INCORRECT }
   styleUrls: ['french-flashcard.component.scss']
 })
 export class FrenchFlashcardComponent implements AfterViewInit {
-  constructor(private flashcardService: FlashcardService) { }
+  constructor(private flashcardService: FlashcardService) { 
+    
+  }
 
   ngAfterViewInit()
   {
-    console.log(this.hideButtons);
-  
+    this.flashcardService.wordsChange.subscribe((words) => {
+      console.log(words);
+   
+      let correct : boolean = false;
+      for (let i = 0; i < words.length; i++) {
+        if (this.entry.wordModels[1].word == words[i]) {
+          this.verificationStatus = VerificationStatus.CORRECT;
+          break;
+        }       
+        
+        if (!correct) {
+          this.verificationStatus = VerificationStatus.INCORRECT;      
+        }
+        this.micIcon.color = "dark";
+      }
+   
+    });
   }
   @Input()
   entry : EntryModel;
@@ -57,18 +74,7 @@ export class FrenchFlashcardComponent implements AfterViewInit {
     this.verificationStatus = VerificationStatus.NONE;
 
     this.flashcardService.verify(this.entry.wordModels[1].localeId,  this.entry.wordModels[1].sentence).then(function(responses: Array<string>) {
-      let correct : boolean = false;
-      for (let i = 0; i < responses.length; i++) {
-        if (this.entry.wordModels[0].word == responses[i]) {
-          this.verificationStatus = VerificationStatus.CORRECT;
-          break;
-        }       
-        
-        if (!correct) {
-          this.verificationStatus = VerificationStatus.INCORRECT;      
-        }
-        this.micIcon.color = "dark";
-      }
+      
     });   
   }
 
