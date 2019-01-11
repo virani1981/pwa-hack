@@ -7,31 +7,33 @@ import { IonIcon } from '@ionic/angular';
 export enum VerificationStatus { NONE, CORRECT, INCORRECT }
 
 @Component({
-  selector: 'app-flashcard',
-  templateUrl: 'flashcard.component.html',
-  styleUrls: ['flashcard.component.scss']
+  selector: 'app-french-flashcard',
+  templateUrl: 'french-flashcard.component.html',
+  styleUrls: ['french-flashcard.component.scss']
 })
-export class FlashcardComponent {
+export class FrenchFlashcardComponent implements AfterViewInit {
   constructor(private flashcardService: FlashcardService) { }
 
-
+  ngAfterViewInit()
+  {
+    console.log(this.hideButtons);
+  
+  }
   @Input()
   entry : EntryModel;
 
+  @Input()
+  hideButtons: boolean;
   @Output() 
   flipEvent = new EventEmitter<string>();
 
-// @Output()
-//   closeEvent  =new EventEmitter<string>();
-
   @ViewChild('micIcon') micIcon: IonIcon;
 
-  wordModelIndex: number = 0;
+  
+  wordModelIndex: number = 1;
   
   verificationStatus: VerificationStatus = VerificationStatus.NONE;
 
-  @Input()
-  hideButtons: boolean = false;
 
   closeIt()
   {
@@ -40,26 +42,23 @@ export class FlashcardComponent {
     let event = new CustomEvent("flashcardClose", {bubbles: true, detail: {text: ""}});
     window.dispatchEvent(event);
   }
-
-  sayWord()
+  sayFrenchWord()
   {
-
-    this.flashcardService.say(this.entry.wordModels[0].localeId, this.entry.wordModels[0].word);
+    this.flashcardService.say(this.entry.wordModels[1].localeId, this.entry.wordModels[1].word);
   }
 
-  saySentence()
-  {
-  
-    this.flashcardService.say(this.entry.wordModels[0].localeId, this.entry.wordModels[0].sentence);
+  sayFrenchSentence()
+  { 
+    this.flashcardService.say(this.entry.wordModels[1].localeId, this.entry.wordModels[1].sentence);
     
   }
 
   verify()
   {    
-    this.micIcon.color = "red";
+    this.micIcon.color = "danger";
     this.verificationStatus = VerificationStatus.NONE;
 
-    this.flashcardService.verify(this.entry.wordModels[0].localeId,  this.entry.wordModels[0].sentence).then(function(responses: Array<string>) {
+    this.flashcardService.verify(this.entry.wordModels[1].localeId,  this.entry.wordModels[1].sentence).then(function(responses: Array<string>) {
       let correct : boolean = false;
       for (let i = 0; i < responses.length; i++) {
         if (this.entry.wordModels[0].word == responses[i]) {
@@ -70,14 +69,14 @@ export class FlashcardComponent {
         if (!correct) {
           this.verificationStatus = VerificationStatus.INCORRECT;      
         }
-        this.micIcon.color = "black";
+        this.micIcon.color = "dark";
       }
     });   
   }
 
   flip()
   {
-    this.flipEvent.next('');
+      this.flipEvent.next('');
   }
 
   isCorrectHidden() : boolean { return this.verificationStatus != VerificationStatus.CORRECT; }

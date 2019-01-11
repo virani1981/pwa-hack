@@ -1,0 +1,24 @@
+<ion-card>
+        <ion-card-header>
+                <ion-item ion-button (click)="closeIt()">
+                    <ion-icon name="arrow-back"></ion-icon>
+                </ion-item>
+            </ion-card-header>
+    <ion-card-content>
+        {{entry.wordModels[1].word}}
+  
+         
+         <ion-item [hidden]="hideButtons"  ion-button   (click)="sayFrenchWord()"><ion-icon name="volume-high"></ion-icon></ion-item>
+    
+         {{entry.wordModels[1].sentence}}
+  
+    
+        <ion-item [hidden]="hideButtons" ion-button (click)="sayFrenchSentence()"><ion-icon name="volume-high"></ion-icon></ion-item>
+      
+        <ion-item [hidden]="hideButtons" ion-button (click)="flip()"><ion-icon name="refresh"></ion-icon></ion-item>
+        <ion-item [hidden]="hideButtons" ion-button (click)="verify()"><ion-icon #micIcon name="mic"></ion-icon></ion-item>
+        <ion-icon [hidden]="isCorrectHidden()" name="checkmark" color="success"></ion-icon>
+        <ion-icon [hidden]="isIncorrectHidden()" name="close" color="danger"></ion-icon>
+    </ion-card-content>
+  </ion-card>
+  

@@ -1,14 +1,19 @@
-<div class="scene scene--card">
-  <div class="card">
-    <div class="card__face card__face--front">
-      <app-flashcard [wordModel]="entry.wordModels[0]" (flipEvent)="flip()">
+<div class="mscene mscene--mcard">
+  <div class="mcard">
+    <div class="mcard__face mcard__face--front">
+      <!-- <app-flashcard [wordModel]="firstWord" (flipEvent)="flip()"> -->
+      
+          <app-flashcard [entry]="entry"  (flipEvent)="flip()" [hideButtons]="flipped">
       </app-flashcard>
     </div>
-    <div class="card__face card__face--back">
-      <app-flashcard
-        [wordModel]="entry.wordModels[1]"
+    <div class="mcard__face mcard__face--back">
+
+      <!-- [wordModel]="secondWord" -->
+      <app-french-flashcard
+        [entry]="entry"
         (flipEvent)="flip()"
-      ></app-flashcard>
+        [hideButtons]="!flipped"
+      ></app-french-flashcard>
     </div>
   </div>
 </div>

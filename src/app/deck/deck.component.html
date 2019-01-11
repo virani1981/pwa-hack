@@ -8,7 +8,7 @@
     </ion-toolbar>
 </ion-header>
 <ion-content padding>
-  <ion-card>
+  <ion-card [hidden]="!menuUp">
     <ion-card-header class="primary-value">
       Words to Learn
       <ion-button float-end color="primary" (click)="toggle()" >
@@ -37,6 +37,7 @@
     </ion-card-content>
 
   </ion-card>
-    <app-flipping-flash-card *ngIf="currentEntry" #flippingFlashCard [entry]="currentEntry"></app-flipping-flash-card>
+
+    <app-flipping-flash-card  *ngIf="currentEntry && !menuUp" #flippingFlashCard [entry]="currentEntry"></app-flipping-flash-card>
 
 </ion-content>
