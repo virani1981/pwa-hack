@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Renderer2,  ViewChildren, QueryList  } from '@angular/core';
 import { EntryModel } from "../models/entrymodel";
 import { FlashcardService } from "../services/flashcards/flashcard.service";
-import { IonInput } from '@ionic/angular';
+import { IonInput, ModalController } from '@ionic/angular';
 import { FlippingFlashCardComponent } from '../flipping-flash-card/flipping-flash-card.component';
 
 
@@ -29,12 +29,22 @@ export class DeckComponent {
 
   currentEntry: EntryModel | null = null;
 
+ x : any =     
+ window.addEventListener('flashcardClose',  () => {
+   debugger;
+   this.closeIt();
+ });
+ 
+
   public show: boolean = false;
-  
+  public menuUp: boolean = true;
+
   @ViewChild('myInput')
   private myInput: IonInput;
-  constructor(private flashcardService: FlashcardService, private renderer: Renderer2) { 
+
+  constructor(private flashcardService: FlashcardService, private renderer: Renderer2, private modalController : ModalController) { 
     this.flashcardService.getCurrentCards().then((entries) => { this.entries = entries});
+ 
   }
 
   removeEntry(entry: EntryModel){
@@ -62,14 +72,25 @@ export class DeckComponent {
   }
 
   playEntry(entry : EntryModel) {
-    if (this.flippingFlashCard) {
-      this.flippingFlashCard.resetFlip();
-    }
-
     this.currentEntry = entry;
+    this.menuUp = false;
+    
+    // this.presentModal();
+  }
+  closeIt() {
+    debugger;
+    this.menuUp = true;
   }
 
-  
+
+
+  // async presentModal() {
+  //   const modal = await this.modalController.create({
+  //     component: FlippingFlashCardComponent,
+  //     componentProps: { "entry": this.currentEntry }
+  //   });
+  //   return await modal.present();
+  // }
 
 }
   
