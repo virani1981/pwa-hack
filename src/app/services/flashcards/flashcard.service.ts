@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ANALYZE_FOR_ENTRY_COMPONENTS } from '@angular/core';
 import { Subject } from 'rxjs';
 import { EntryModel } from 'src/app/models/entrymodel';
 import { Storage} from '@ionic/storage';
@@ -171,37 +171,31 @@ export class FlashcardService {
 
   async getEntry(localeId: string, word: string): Promise<EntryModel> {
     await this.getCurrentCards();
-    return this.findWord(localeId, word, this.entries);
+    let t = this.findWord(localeId, word, this.entries);
+    // console.log(t);
+    return t;
   }
 
   private findWord(localeId: string, word: string, entries: EntryModel[]): EntryModel {
     let found = false;
-    entries.forEach(e => {
-      e.wordModels.filter(w => {
-        if (w.localeId.toLocaleLowerCase() === localeId.toLocaleLowerCase()
-          && w.word.toLocaleLowerCase() === word.toLocaleLowerCase()) {
-          found = true;
-        }
-      });
-      if (found) {
-        return e;
-      }
-    });
+    let entry: EntryModel;
 
-    // If the local data does not have the value then lookup in dictionary
+  // If the local data does not have the value then lookup in dictionary
     DICTIONARY.forEach(e => {
       e.wordModels.filter(w => {
         if (w.localeId.toLocaleLowerCase() === localeId.toLocaleLowerCase()
           && w.word.toLocaleLowerCase() === word.toLocaleLowerCase()) {
           found = true;
+          return w;
         }
       });
       if (found) {
-        return e;
+        entry = e;
+        found = false;
       }
     });
 
-    return null;
+    return entry;
   }
 
   async addCard(localeId: string, word: string): Promise<void> {
