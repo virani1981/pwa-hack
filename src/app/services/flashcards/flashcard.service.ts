@@ -7,6 +7,7 @@ import { Platform } from '@ionic/angular';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { DICTIONARY } from '../../data/dictionary';
 import Artyom from '../../../assets/js/artyom/artyom.js';
+import { stringify } from '@angular/compiler/src/util';
 
 
 @Injectable({
@@ -23,7 +24,7 @@ export class FlashcardService {
   entries: EntryModel[];
   defaultEntries: EntryModel[] = [];
   defaultNumberOfEntries = 5;
-  defaultWaitForSpeech = 5; // seconds
+  defaultWaitForSpeech = 5000; // seconds
 
   isChanged: Subject<void>;
 
@@ -62,10 +63,10 @@ export class FlashcardService {
   }
 
   // Will listen to the speach and checks and gets the text
-  private getTextFromSpeechNative(): string | Array<String> {
+  private getTextFromSpeechNative(localeId): Array<string> {
 
     let error: any;
-    let words: Array<string> = [];
+    let words: Array<string> = new Array<string>();
 
     this.speechRecognition.isRecognitionAvailable()
     .then((available: boolean) => {
@@ -119,33 +120,42 @@ export class FlashcardService {
 
   }
 
-  private getTextFromSpeech(localeId: string): string {
+  private getTextFromSpeech(localeId: string): Array<string> {
     // TODO
+    let words: Array<string> = new Array<string>();
     const artyom = new Artyom();
-    artyom.initialize({
-      lang: localeId, // GreatBritain english
-      continuous: true, // Listen forever
-      soundex: true,// Use the soundex algorithm to increase accuracy
-      debug: true, // Show messages in the console
-      executionKeyword: "and do it now",
-      listen: true, // Start to listen commands !
+    const settings = {
+      continuous: true, // Don't stop never because i have https connection
+      onResult: (text) => {
+          // Show the Recognized text in the console
+          console.log('Recognized text: ', text);
+          String.prototype.trim();
+          words = String(text).trim().split(' ');
+      },
+      onStart: () => {
+          console.log('Dictation started by the user');
+      },
+      onEnd: () => {
+          alert('Dictation stopped by the user');
+      }
+    };
 
-      // If providen, you can only trigger a command if you say its name
-      // e.g to trigger Good Morning, you need to say "Jarvis Good Morning"
-      // name: "Jarvis"
-    }).then(() => {
-        console.log("Artyom has been succesfully initialized");
-    }).catch((err) => {
-        console.error("Artyom couldn't be initialized: ", err);
-    });
-    return 'just text';
+    const UserDictation = artyom.newDictation(settings);
+    UserDictation.start();
+    setTimeout(() => {
+      UserDictation.stop();
+    }, this.defaultWaitForSpeech);
+    return words;
   }
 
-  async verify(localeId: string, word: string): Promise<void> {
+  async verify(localeId: string, word: string): Promise<Array<string>> {
+    let words: Array<string> ;
     await this.platform.is('cordova') ?
-    this.getTextFromSpeechNative()
+    words = this.getTextFromSpeechNative(localeId)
     :
-    this.getTextFromSpeech(localeId);
+    words = this.getTextFromSpeech(localeId);
+
+    return words;
   }
 
   // sends all the enties
