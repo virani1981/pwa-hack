@@ -7,7 +7,6 @@ import { Platform } from '@ionic/angular';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { DICTIONARY } from '../../data/dictionary';
 import Artyom from '../../../assets/js/artyom/artyom.js';
-import { stringify } from '@angular/compiler/src/util';
 
 
 @Injectable({
@@ -176,23 +175,30 @@ export class FlashcardService {
   }
 
   private findWord(localeId: string, word: string, entries: EntryModel[]): EntryModel {
+    let found = false;
     entries.forEach(e => {
-      e.wordModels.forEach(w => {
+      e.wordModels.filter(w => {
         if (w.localeId.toLocaleLowerCase() === localeId.toLocaleLowerCase()
           && w.word.toLocaleLowerCase() === word.toLocaleLowerCase()) {
-          return w;
+          found = true;
         }
       });
+      if (found) {
+        return e;
+      }
     });
 
     // If the local data does not have the value then lookup in dictionary
     DICTIONARY.forEach(e => {
-      e.wordModels.forEach(w => {
+      e.wordModels.filter(w => {
         if (w.localeId.toLocaleLowerCase() === localeId.toLocaleLowerCase()
           && w.word.toLocaleLowerCase() === word.toLocaleLowerCase()) {
-          return w;
+          found = true;
         }
       });
+      if (found) {
+        return e;
+      }
     });
 
     return null;
