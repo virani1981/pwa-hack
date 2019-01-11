@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Renderer2 } from '@angular/core';
 import { EntryModel } from "../models/entrymodel";
 import { FlashcardService } from "../services/flashcards/flashcard.service";
+import { IonInput } from '@ionic/angular';
 
 @Component({
   selector: 'app-deck',
@@ -10,9 +11,12 @@ import { FlashcardService } from "../services/flashcards/flashcard.service";
 export class DeckComponent implements OnInit {
   private localeId: string = "en-us";
   private addedWord: string;
-  private entries: EntryModel[];;
+  private entries: EntryModel[];
+  private iconType: string = "add";
   public show: boolean = false;
-  constructor(private flashcardService: FlashcardService) { 
+  @ViewChild('myInput')
+  private myInput: IonInput;
+  constructor(private flashcardService: FlashcardService, private renderer: Renderer2) { 
     this.flashcardService.getCurrentCards().then((entries) => { this.entries = entries});
   }
 
@@ -24,10 +28,13 @@ export class DeckComponent implements OnInit {
   }
 
   addEntry(word: string){
-    console.log(word);
-    this.flashcardService.addCard(this.localeId, word);
-    this.addedWord = "";
+    if(word.length > 0)
+      this.flashcardService.addCard(this.localeId, word);
     this.toggle();
+  }
+
+  playEntry(entry){
+    console.log(entry);
   }
 
   setLocaleId(val: string){
@@ -36,6 +43,12 @@ export class DeckComponent implements OnInit {
 
   toggle() {
     this.show = !this.show;
+    if(this.show){
+      this.iconType = 'remove';
+      this.myInput.setFocus();
+    }else
+      this.iconType = 'add';
+    this.addedWord = "";
   }
 
 }
