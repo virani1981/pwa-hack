@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { EntryModel } from "../models/entrymodel";
 import { FlashcardService} from "../services/flashcards/flashcard.service";
 import { WordModel } from '../models/wordmodel';
@@ -11,14 +11,19 @@ export enum VerificationStatus { NONE, CORRECT, INCORRECT }
   templateUrl: 'french-flashcard.component.html',
   styleUrls: ['french-flashcard.component.scss']
 })
-export class FrenchFlashcardComponent {
+export class FrenchFlashcardComponent implements AfterViewInit {
   constructor(private flashcardService: FlashcardService) { }
 
+  ngAfterViewInit()
+  {
+    console.log(this.hideButtons);
+  
+  }
   @Input()
   entry : EntryModel;
 
   @Input()
-  hideButtons: boolean = true;
+  hideButtons: boolean;
   @Output() 
   flipEvent = new EventEmitter<string>();
 
@@ -48,13 +53,13 @@ export class FrenchFlashcardComponent {
 
   verify()
   {    
-    this.micIcon.color = "red";
+    this.micIcon.color = "danger";
     this.verificationStatus = VerificationStatus.NONE;
 
     this.flashcardService.verify(this.entry.wordModels[1].localeId,  this.entry.wordModels[1].sentence).then(function(responses: Array<string>) {
       let correct : boolean = false;
       for (let i = 0; i < responses.length; i++) {
-        if (this.wordModel.word == responses[i]) {
+        if (this.entry.wordModels[0].word == responses[i]) {
           this.verificationStatus = VerificationStatus.CORRECT;
           break;
         }       
@@ -62,7 +67,7 @@ export class FrenchFlashcardComponent {
         if (!correct) {
           this.verificationStatus = VerificationStatus.INCORRECT;      
         }
-        this.micIcon.color = "black";
+        this.micIcon.color = "dark";
       }
     });   
   }

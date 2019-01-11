@@ -2,6 +2,7 @@ import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { WordModel } from '../models/wordmodel';
 import { EntryModel } from '../models/entrymodel';
 import { DICTIONARY } from '../data/dictionary';
+import { ModalController, NavParams } from '@ionic/angular';
 
 @Component({
   selector: 'app-flipping-flash-card',
@@ -13,22 +14,21 @@ export class FlippingFlashCardComponent implements OnInit {
     this.flipped = false;  
   }
   
-  flipped: boolean;
+  flipped: boolean = false;
   
   @Input()
   entry : EntryModel;
 
-
+    
   flip()
   {
-    let card = document.querySelector(".card");
+    let card = document.querySelector(".mcard");
     card.classList.toggle("is-flipped");
-    this.flipped = !this.flipped;
   }
 
   resetFlip()
   {
-    let card = document.querySelector(".card");
+    let card = document.querySelector(".mcard");
     if(card.classList.contains("is-flipped")) {
       card.classList.remove("is-flipped");
     }
@@ -36,8 +36,9 @@ export class FlippingFlashCardComponent implements OnInit {
   }
 
 
-  constructor() { }
-
+  // constructor(navParams: NavParams) {
+  //   // componentProps can also be accessed at construction time using NavParams
+  // }  
 
 
 

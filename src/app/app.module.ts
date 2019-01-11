@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy, NavParams } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -23,7 +23,7 @@ import { FrenchFlashcardComponent } from './french-flashcard/french-flashcard.co
 
 @NgModule({
   declarations: [AppComponent, FlashcardComponent, FlippingFlashCardComponent, DeckComponent, FrenchFlashcardComponent],
-  entryComponents: [],
+  entryComponents: [FlippingFlashCardComponent],
   imports: [BrowserModule, IonicModule.forRoot(),
     HttpClientModule, FormsModule,
     IonicStorageModule.forRoot(),

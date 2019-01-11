@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { EntryModel } from "../models/entrymodel";
 import { FlashcardService} from "../services/flashcards/flashcard.service";
 import { WordModel } from '../models/wordmodel';
@@ -13,6 +13,7 @@ export enum VerificationStatus { NONE, CORRECT, INCORRECT }
 })
 export class FlashcardComponent {
   constructor(private flashcardService: FlashcardService) { }
+
 
   @Input()
   entry : EntryModel;
@@ -31,13 +32,13 @@ export class FlashcardComponent {
 
   sayWord()
   {
-    debugger;
+
     this.flashcardService.say(this.entry.wordModels[0].localeId, this.entry.wordModels[0].word);
   }
 
   saySentence()
   {
-    debugger; 
+  
     this.flashcardService.say(this.entry.wordModels[0].localeId, this.entry.wordModels[0].sentence);
     
   }
@@ -50,7 +51,7 @@ export class FlashcardComponent {
     this.flashcardService.verify(this.entry.wordModels[0].localeId,  this.entry.wordModels[0].sentence).then(function(responses: Array<string>) {
       let correct : boolean = false;
       for (let i = 0; i < responses.length; i++) {
-        if (this.wordModel.word == responses[i]) {
+        if (this.entry.wordModels[0].word == responses[i]) {
           this.verificationStatus = VerificationStatus.CORRECT;
           break;
         }       
