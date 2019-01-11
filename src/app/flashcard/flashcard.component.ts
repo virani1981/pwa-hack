@@ -10,12 +10,9 @@ export enum VerificationStatus { NONE, CORRECT, INCORRECT }
   templateUrl: 'flashcard.component.html',
   styleUrls: ['flashcard.component.scss']
 })
-export class FlashcardComponent implements OnInit {
+export class FlashcardComponent {
   constructor(private flashcardService: FlashcardService) { }
 
-  ngOnInit() {
-    
-  }
 
 
   @Input()

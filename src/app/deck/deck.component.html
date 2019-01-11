@@ -9,6 +9,7 @@
         <ion-icon name="add" (click)="toggle()"></ion-icon>
       </button>
     </ion-card-header>
+
     <ion-item *ngIf="show">
         <ion-label floating>Add Entry</ion-label>
         <ion-input type="text" [(ngModel)]="addedWord"></ion-input>
@@ -19,7 +20,9 @@
     <ion-list>
       <button ion-item *ngFor="let entry of entries" (click)="playEntry(entry)">
         <ion-icon name="trash" item-start (click)="removeEntry(entry)"></ion-icon>
-        {{ entry.wordModels[0].word }} <!--<app-flashcard [entry]=entry></app-flashcard>-->
+        {{ entry.wordModels[0].word }} 
       </button> 
     </ion-list>
   </ion-card>
+
+  <app-flipping-flash-card *ngIf="currentEntry" #flippingFlashCard [entry]="currentEntry"></app-flipping-flash-card>
