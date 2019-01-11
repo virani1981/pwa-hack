@@ -1,7 +1,9 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ViewChild, Renderer2,  ViewChildren, QueryList  } from '@angular/core';
 import { EntryModel } from "../models/entrymodel";
 import { FlashcardService } from "../services/flashcards/flashcard.service";
+import { IonInput } from '@ionic/angular';
 import { FlippingFlashCardComponent } from '../flipping-flash-card/flipping-flash-card.component';
+
 
 @Component({
   selector: 'app-deck',
@@ -21,16 +23,17 @@ export class DeckComponent {
     });
   }
   private localeId: string = "en-us";
-  
-
-  addedWord: string;
-  
-  entries: EntryModel[];
+  private addedWord: string;
+  private entries: EntryModel[];
+  private iconType: string = "add";
 
   currentEntry: EntryModel | null = null;
 
   public show: boolean = false;
-  constructor(private flashcardService: FlashcardService) { 
+  
+  @ViewChild('myInput')
+  private myInput: IonInput;
+  constructor(private flashcardService: FlashcardService, private renderer: Renderer2) { 
     this.flashcardService.getCurrentCards().then((entries) => { this.entries = entries});
   }
 
@@ -39,12 +42,10 @@ export class DeckComponent {
   }
 
   addEntry(word: string){
-    console.log(word);
-    this.flashcardService.addCard(this.localeId, word);
-    this.addedWord = "";
+    if(word.length > 0)
+      this.flashcardService.addCard(this.localeId, word);
     this.toggle();
   }
-
 
   setLocaleId(val: string){
     this.localeId = val;
@@ -52,13 +53,19 @@ export class DeckComponent {
 
   toggle() {
     this.show = !this.show;
+    if(this.show){
+      this.iconType = 'remove';
+      this.myInput.setFocus();
+    }else
+      this.iconType = 'add';
+    this.addedWord = "";
   }
 
   playEntry(entry : EntryModel) {
     if (this.flippingFlashCard) {
       this.flippingFlashCard.resetFlip();
     }
-    
+
     this.currentEntry = entry;
   }
 

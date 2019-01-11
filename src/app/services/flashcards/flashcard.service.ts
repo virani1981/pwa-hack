@@ -6,6 +6,7 @@ import { TextToSpeech, TTSOptions } from '@ionic-native/text-to-speech/ngx';
 import { Platform } from '@ionic/angular';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { DICTIONARY } from '../../data/dictionary';
+import Artyom from '../../../assets/js/artyom/artyom.js';
 
 
 @Injectable({
@@ -15,14 +16,15 @@ export class FlashcardService {
 
   // constructor(private http: HttpClient){}
 
-  entries: EntryModel[];
-  defaultEntries: EntryModel[] = [];
-  defaultNumberOfEntries = 5;
-  defaultWaitForSpeech = 5; // seconds
-
   private keys = {
     entries: 'entries'
   };
+
+  entries: EntryModel[];
+  defaultEntries: EntryModel[] = [];
+  defaultNumberOfEntries = 5;
+  defaultWaitForSpeech = 5000; // seconds
+
   isChanged: Subject<void>;
 
   constructor(private storage: Storage,
@@ -46,8 +48,10 @@ export class FlashcardService {
   }
 
   private getSpeechFromText(localeId: string, word: string) {
-
-    // :TODO
+    const artyom = new Artyom();
+    artyom.say(word, {
+      lang: localeId
+    });
   }
 
   async say(localeId: string, word: string): Promise<void> {
@@ -58,10 +62,10 @@ export class FlashcardService {
   }
 
   // Will listen to the speach and checks and gets the text
-  private getTextFromSpeechNative(): string | Array<String> {
+  private getTextFromSpeechNative(localeId): Array<string> {
 
     let error: any;
-    let words: Array<string> = [];
+    let words: Array<string> = new Array<string>();
 
     this.speechRecognition.isRecognitionAvailable()
     .then((available: boolean) => {
@@ -115,16 +119,42 @@ export class FlashcardService {
 
   }
 
-  private getTextFromSpeech(): string {
+  private getTextFromSpeech(localeId: string): Array<string> {
     // TODO
-    return 'just text';
+    let words: Array<string> = new Array<string>();
+    const artyom = new Artyom();
+    const settings = {
+      continuous: true, // Don't stop never because i have https connection
+      onResult: (text) => {
+          // Show the Recognized text in the console
+          console.log('Recognized text: ', text);
+          String.prototype.trim();
+          words = String(text).trim().split(' ');
+      },
+      onStart: () => {
+          console.log('Dictation started by the user');
+      },
+      onEnd: () => {
+          alert('Dictation stopped by the user');
+      }
+    };
+
+    const UserDictation = artyom.newDictation(settings);
+    UserDictation.start();
+    setTimeout(() => {
+      UserDictation.stop();
+    }, this.defaultWaitForSpeech);
+    return words;
   }
 
-  async verify(localeId: string, word: string): Promise<void> {
+  async verify(localeId: string, word: string): Promise<Array<string>> {
+    let words: Array<string> ;
     await this.platform.is('cordova') ?
-    this.getTextFromSpeechNative()
+    words = this.getTextFromSpeechNative(localeId)
     :
-    this.getTextFromSpeech();
+    words = this.getTextFromSpeech(localeId);
+
+    return words;
   }
 
   // sends all the enties
@@ -145,23 +175,30 @@ export class FlashcardService {
   }
 
   private findWord(localeId: string, word: string, entries: EntryModel[]): EntryModel {
+    let found = false;
     entries.forEach(e => {
-      e.wordModels.forEach(w => {
+      e.wordModels.filter(w => {
         if (w.localeId.toLocaleLowerCase() === localeId.toLocaleLowerCase()
           && w.word.toLocaleLowerCase() === word.toLocaleLowerCase()) {
-          return w;
+          found = true;
         }
       });
+      if (found) {
+        return e;
+      }
     });
 
     // If the local data does not have the value then lookup in dictionary
     DICTIONARY.forEach(e => {
-      e.wordModels.forEach(w => {
+      e.wordModels.filter(w => {
         if (w.localeId.toLocaleLowerCase() === localeId.toLocaleLowerCase()
           && w.word.toLocaleLowerCase() === word.toLocaleLowerCase()) {
-          return w;
+          found = true;
         }
       });
+      if (found) {
+        return e;
+      }
     });
 
     return null;
@@ -176,10 +213,10 @@ export class FlashcardService {
           {localeId, word}
         ]
       };
-
-      this.entries.push(entry);
-      this.save();
     }
+
+    this.entries.push(entry);
+    this.save();
   }
 
   // removes a given entry/card from the array of data

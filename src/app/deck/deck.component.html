@@ -1,28 +1,37 @@
 <ion-header>
-    <ion-title>Language Cards</ion-title>
+    <ion-toolbar color="primary"> <ion-title>Language Cards</ion-title></ion-toolbar>
 </ion-header>
-
+<ion-content padding>
   <ion-card>
-    <ion-card-header>
+    <ion-card-header class="primary-value">
       Words to Learn
-      <button icon-only>
-        <ion-icon name="add" (click)="toggle()"></ion-icon>
-      </button>
+      <ion-button float-end color="primary" (click)="toggle()" class="fake">
+        <ion-icon [name]="iconType"></ion-icon>
+      </ion-button>
+      <ion-item [hidden]=!show>
+          <ion-label floating>Add Entry</ion-label>
+          <ion-input #myInput type="text" [(ngModel)]="addedWord"></ion-input>
+          <div>
+              <ion-button color="primary" round small (click)="addEntry(addedWord)">Submit</ion-button>
+          </div>
+      </ion-item>      
     </ion-card-header>
 
-    <ion-item *ngIf="show">
-        <ion-label floating>Add Entry</ion-label>
-        <ion-input type="text" [(ngModel)]="addedWord"></ion-input>
-        <div padding>
-          <button block (click)="addEntry(addedWord)">Submit</button>
-        </div>
-    </ion-item>
-    <ion-list>
-      <button ion-item *ngFor="let entry of entries" (click)="playEntry(entry)">
-        <ion-icon name="trash" item-start (click)="removeEntry(entry)"></ion-icon>
-        {{ entry.wordModels[0].word }} 
-      </button> 
-    </ion-list>
-  </ion-card>
 
-  <app-flipping-flash-card *ngIf="currentEntry" #flippingFlashCard [entry]="currentEntry"></app-flipping-flash-card>
+    <ion-card-content>
+
+          <ion-item *ngFor="let entry of entries" >
+            <span class="wordspan" (click)="playEntry(entry)"><h1>{{ entry.wordModels[0].word }}</h1></span>
+            <span class="buttonspan" float-end>
+              <ion-button color="primary" round (click)="removeEntry(entry)" >
+                  <ion-icon name="trash" ></ion-icon>
+              </ion-button> 
+            </span>
+          </ion-item>
+
+    </ion-card-content>
+
+  </ion-card>
+    <app-flipping-flash-card *ngIf="currentEntry" #flippingFlashCard [entry]="currentEntry"></app-flipping-flash-card>
+
+</ion-content>
